@@ -14,7 +14,7 @@
             <GradientStop Color="#2D5069" Offset="1"/>
         </LinearGradientBrush>
     </UserControl.Background>
-    <Grid>
+    <Grid Style="{StaticResource MainGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -26,8 +26,8 @@
                 <TextBlock Text="Quiz Creator" Style="{DynamicResource HeaderStyle}"/>
             </Viewbox>
         </Grid>
-        <Viewbox Grid.Row="1"  x:Name="QuizViewbox" Visibility="{Binding QuizBoxVisibility}" StretchDirection="DownOnly">
-            <Grid Grid.Row="1" Name="QuizGrid">
+        <Viewbox Grid.Row="1"  x:Name="QuizViewbox" Visibility="Visible"  StretchDirection="DownOnly">
+            <Grid Name="QuizGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -40,10 +40,10 @@
 
                 <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Quiz Settings" Style="{StaticResource InformationStyle}" FontSize="24" TextDecorations="Underline" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                <TextBlock Grid.Row="1"  Text="Title" Style="{StaticResource InformationStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Title" Style="{StaticResource InformationStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Width="180" HorizontalAlignment="Left" Text="{Binding QuizTitle, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <TextBlock Grid.Row="2" Text="Amount of questions" Style="{StaticResource InformationStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Amount of questions" Style="{StaticResource InformationStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <DockPanel Grid.Row="2" Grid.Column="1">
                     <Slider IsSnapToTickEnabled="true" TickFrequency="1" Minimum="1" Maximum="10" Width="180" VerticalAlignment="Center" Name="slValue" Value="{Binding NumberOfQuestions, UpdateSourceTrigger=PropertyChanged}" TickPlacement="BottomRight"/>
                     <TextBox Width="22" HorizontalAlignment="Left" Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
@@ -51,23 +51,56 @@
 
             </Grid>
         </Viewbox>
-        
-        <Grid Grid.Row="2" Name="QuestionGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.RowSpan="6" Grid.ColumnSpan="2" Name="TestText" Text="{Binding TestText}" Style="{StaticResource InformationStyle}"/>
-        </Grid>
+        <Viewbox Grid.Row="1" Name="QuestionViewbox" Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource InformationStyle}" Text="Question settings" TextDecorations="Underline" HorizontalAlignment="Center"></TextBlock>
+                <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
+                    <TextBlock Text="Question" Style="{StaticResource InformationStyle}"/>
+                    <TextBox/>
+                </DockPanel>
+                <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
+                    <TextBlock Text="Category" Style="{StaticResource InformationStyle}"/>
+                    <ComboBox/>
+                </DockPanel>
+
+                <DockPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,5">
+                    <TextBlock Text="Answer 1 " Style="{StaticResource InformationStyle}"/>
+                    <TextBox Width="180"/>
+                    <RadioButton GroupName="correctAnswer"/>
+                </DockPanel>
+                <DockPanel Grid.Row="3" Grid.Column="1" Margin="0,0,0,5">
+                    <TextBlock Text="Answer 2" Style="{StaticResource InformationStyle}"/>
+                    <TextBox Width="180"/>
+                    <RadioButton GroupName="correctAnswer"/>
+                </DockPanel>
+                <DockPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,4">
+                    <TextBlock Text="Answer 3" Style="{StaticResource InformationStyle}"/>
+                    <TextBox Width="180"/>
+                    <RadioButton GroupName="correctAnswer"/>
+                </DockPanel>
+                <DockPanel Grid.Row="4" Grid.Column="1" Margin="0,0,0,5">
+                    <TextBlock Text="Answer 4" Style="{StaticResource InformationStyle}"/>
+                    <TextBox Width="180"/>
+                    <RadioButton GroupName="correctAnswer"/>
+                </DockPanel>
+
+            </Grid>
+        </Viewbox>
+        <TextBlock Grid.Row="2" Name="TestText" Text="{Binding TestText}" Style="{StaticResource InformationStyle}"/>
         <Viewbox Grid.Row="3" Name="ButtonBox" Margin="0,0,0,10">
-            <Grid Grid.Row="3" Name="ButtonGrid">
+            <Grid Name="ButtonGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -76,6 +109,5 @@
                 <Button Grid.Column="1" Content="Submit" Command="{Binding SubmitCommand}" Margin="15,2,2,2"/>
             </Grid>
         </Viewbox>
-        
     </Grid>
 </UserControl>

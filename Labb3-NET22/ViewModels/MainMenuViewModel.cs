@@ -19,6 +19,10 @@ public class MainMenuViewModel : ObservableObject
         {
             navigationStore.CurrentViewModel = new CreateQuizViewModel(new CreateQuizModel(), _navigationStore);
         });
+        PlayCommand = new RelayCommand(() =>
+        {
+            navigationStore.CurrentViewModel = new PlayQuizViewModel(new PlayQuizModel(), _navigationStore);
+        });
     }
     public ICommand PlayCommand { get; }
     public ICommand CreateCommand { get; }

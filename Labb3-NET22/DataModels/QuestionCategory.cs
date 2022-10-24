@@ -6,7 +6,7 @@ public enum QuestionCategory
     Movies,
     Music,
     TV,
-    PopCulture,
+    Pop_Culture,
     Games,
     Sports,
     Religion,

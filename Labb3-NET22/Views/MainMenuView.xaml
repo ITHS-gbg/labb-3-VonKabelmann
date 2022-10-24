@@ -14,7 +14,7 @@
             <GradientStop Color="#2D5069" Offset="1"/>
         </LinearGradientBrush>
     </UserControl.Background>
-    <Grid>
+    <Grid Style="{StaticResource MainGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="2.5*"/>

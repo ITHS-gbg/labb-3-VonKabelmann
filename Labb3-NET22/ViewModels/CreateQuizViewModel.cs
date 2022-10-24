@@ -20,7 +20,7 @@ public class CreateQuizViewModel : ObservableObject
         _createQuizModel = createQuizModel;
         _navigationStore = navigationStore;
         QuizTitle = "Enter quiz title here";
-        NumberOfQuestions = 1;
+        NumberOfQuestions = 5; // defaultförslag för värdet slidern ska börja på
         SubmitCommand = new RelayCommand(() =>
         {
             TestText = createQuizModel.GetTestText();
@@ -48,23 +48,22 @@ public class CreateQuizViewModel : ObservableObject
     public ICommand CancelCommand { get; }
     public ICommand SubmitCommand { get; }
 
-    private string _testText;
     public string TestText
     {
-        get { return _testText; }
-        set
-        {
-            SetProperty(ref _testText, value);
-        }
+        get => _createQuizModel.TestText;
+        set { SetProperty(_createQuizModel.TestText, value, (v) => _createQuizModel.TestText = v); }
     }
 
     private Visibility _quizBoxVisibility;
     public Visibility QuizBoxVisibility
     {
-        get { return _quizBoxVisibility; }
-        set
-        {
-            SetProperty(ref _quizBoxVisibility, value);
-        }
+        get => _quizBoxVisibility;
+        set => SetProperty(ref _quizBoxVisibility, value);
+    }
+    private Visibility _questionBoxVisibility;
+    public Visibility QuestionBoxVisibility
+    {
+        get => _questionBoxVisibility;
+        set => SetProperty(ref _questionBoxVisibility, value);
     }
 }

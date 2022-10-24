@@ -13,16 +13,11 @@ public class CreateQuizModel
     public string Answer4 { get; set; }
     public int CorrectAnswer { get; set; }
     public string TestText { get; set; }
-    public Visibility QuizBoxVisibility { get; set; }
 
     public string GetTestText()
     {
         return $"QuizTitle: {QuizTitle}, NumberOfQuestions: {NumberOfQuestions}";
     }
-
-    public void ClearTitleAndNumQ()
-    {
-        QuizTitle = string.Empty;
-        NumberOfQuestions = 1;
-    }
+    
+    
 }
