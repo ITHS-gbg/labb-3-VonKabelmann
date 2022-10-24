@@ -4,9 +4,78 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Labb3_NET22.Views"
+             xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModels"
+             d:DataContext="{d:DesignInstance viewModels:CreateQuizViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#65B4EC"/>
+            <GradientStop Color="#2D5069" Offset="1"/>
+        </LinearGradientBrush>
+    </UserControl.Background>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Name="Header">
+            <Viewbox>
+                <TextBlock Text="Quiz Creator" Style="{DynamicResource HeaderStyle}"/>
+            </Viewbox>
+        </Grid>
+        <Viewbox Grid.Row="1"  x:Name="QuizViewbox" Visibility="{Binding QuizBoxVisibility}" StretchDirection="DownOnly">
+            <Grid Grid.Row="1" Name="QuizGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.3*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Quiz Settings" Style="{StaticResource InformationStyle}" FontSize="24" TextDecorations="Underline" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Row="1"  Text="Title" Style="{StaticResource InformationStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Width="180" HorizontalAlignment="Left" Text="{Binding QuizTitle, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Grid.Row="2" Text="Amount of questions" Style="{StaticResource InformationStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <DockPanel Grid.Row="2" Grid.Column="1">
+                    <Slider IsSnapToTickEnabled="true" TickFrequency="1" Minimum="1" Maximum="10" Width="180" VerticalAlignment="Center" Name="slValue" Value="{Binding NumberOfQuestions, UpdateSourceTrigger=PropertyChanged}" TickPlacement="BottomRight"/>
+                    <TextBox Width="22" HorizontalAlignment="Left" Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
+
+            </Grid>
+        </Viewbox>
+        
+        <Grid Grid.Row="2" Name="QuestionGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.RowSpan="6" Grid.ColumnSpan="2" Name="TestText" Text="{Binding TestText}" Style="{StaticResource InformationStyle}"/>
+        </Grid>
+        <Viewbox Grid.Row="3" Name="ButtonBox" Margin="0,0,0,10">
+            <Grid Grid.Row="3" Name="ButtonGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}" Margin="2,2,5,2"/>
+                <Button Grid.Column="1" Content="Submit" Command="{Binding SubmitCommand}" Margin="15,2,2,2"/>
+            </Grid>
+        </Viewbox>
+        
     </Grid>
 </UserControl>

@@ -7,4 +7,10 @@ public class Question
     public int CorrectAnswer { get; }
 
     //public <T?> Image
+    public Question(string statement, string[] answers, int correctAnswer)
+    {
+        Statement = statement;
+        Answers = answers;
+        CorrectAnswer = correctAnswer;
+    }
 }

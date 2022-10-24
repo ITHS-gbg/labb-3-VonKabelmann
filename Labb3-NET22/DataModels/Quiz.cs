@@ -10,9 +10,10 @@ public class Quiz
     public IEnumerable<Question> Questions => _questions;
     public string Title => _title;
 
-    public Quiz()
+    public Quiz(string title)
     {
         _questions = new List<Question>();
+        _title = title;
     }
 
     public Question GetRandomQuestion()

@@ -8,28 +8,10 @@
              d:DataContext="{d:DesignInstance viewModels:MainMenuViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <Style x:Key="CommonStyle" TargetType="FrameworkElement">
-            <Setter Property="Margin" Value="2"></Setter>
-        </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Background" Value="#FFD1DCFF"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="MaxWidth" Value="120"/>
-            <Setter Property="FontFamily" Value="Bauhaus 93"/>
-            <Setter Property="Foreground" Value="MidnightBlue"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="15"/>
-                </Style>
-            </Style.Resources>
-        </Style>
-    </UserControl.Resources>
     <UserControl.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF42FFF0"/>
-            <GradientStop Color="#FF239D94" Offset="1"/>
+            <GradientStop Color="#65B4EC"/>
+            <GradientStop Color="#2D5069" Offset="1"/>
         </LinearGradientBrush>
     </UserControl.Background>
     <Grid>
@@ -37,24 +19,16 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="2.5*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="1" VerticalAlignment="Center">
-            <Button Content="Play Quiz"/>
-            <Button Content="Create Quiz"/>
-            <Button Content="Edit Quiz"/>
-            <Button Content="Exit"/>
-        </StackPanel>
-        <Viewbox StretchDirection="DownOnly" Stretch="Uniform">
-            <ContentControl FontSize="80" Content="Quizly" FontFamily="Bauhaus 93">
-                <ContentControl.Foreground>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF00455C" Offset="1"/>
-                        <GradientStop Color="#FF00A5DD" Offset="0"/>
-                    </LinearGradientBrush>
-                </ContentControl.Foreground>
-            </ContentControl>
+        <Viewbox Grid.Row="1" StretchDirection="Both">
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="15">
+                <Button Content="Play Quiz" Command="{Binding PlayCommand}"/>
+                <Button Content="Create Quiz" Command="{Binding CreateCommand}"/>
+                <Button Content="Edit Quiz" Command="{Binding EditCommand}"/>
+                <Button Content="Exit" Command="{Binding ExitCommand}"/>
+            </StackPanel>
+        </Viewbox>
+        <Viewbox StretchDirection="Both" Stretch="Uniform">
+            <TextBlock Text="Quizly" Style="{StaticResource HeaderStyle}" />
         </Viewbox>
     </Grid>
 </UserControl>
