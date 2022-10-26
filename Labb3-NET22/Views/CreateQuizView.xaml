@@ -26,7 +26,7 @@
                 <TextBlock Text="Quiz Creator" Style="{DynamicResource HeaderStyle}"/>
             </Viewbox>
         </Grid>
-        <Viewbox Grid.Row="1"  x:Name="QuizViewbox" Visibility="Visible"  StretchDirection="DownOnly">
+        <Viewbox Grid.Row="1"  x:Name="QuizViewbox" Visibility="Collapsed"  StretchDirection="DownOnly">
             <Grid Name="QuizGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -51,7 +51,7 @@
 
             </Grid>
         </Viewbox>
-        <Viewbox Grid.Row="1" Name="QuestionViewbox" Visibility="Collapsed">
+        <Viewbox Grid.Row="1" Name="QuestionViewbox" Visibility="Visible">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -72,7 +72,16 @@
                 </DockPanel>
                 <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
                     <TextBlock Text="Category" Style="{StaticResource InformationStyle}"/>
-                    <ComboBox/>
+                    <ComboBox>
+                        <ComboBox.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#A9CEE8"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Background" Value="#A9CEE8"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
                 </DockPanel>
 
                 <DockPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,5">

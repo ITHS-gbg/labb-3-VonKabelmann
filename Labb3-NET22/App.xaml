@@ -56,6 +56,7 @@
         <Style x:Key="MainGridStyle" TargetType="Grid">
             <Setter Property="Margin" Value="10"/>
         </Style>
+        
     </Application.Resources>
 </Application>
 
