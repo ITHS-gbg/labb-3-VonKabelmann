@@ -12,7 +12,6 @@ public class MainViewModel : ObservableObject
     public MainViewModel(NavigationStore navigationStore)
     {
         _navigationStore = navigationStore;
-
         _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
     }
 
