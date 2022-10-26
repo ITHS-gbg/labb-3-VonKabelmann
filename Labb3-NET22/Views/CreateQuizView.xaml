@@ -44,10 +44,10 @@
                 <TextBox Grid.Row="1" Grid.Column="1" Width="180" HorizontalAlignment="Left" Text="{Binding QuizTitle, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Amount of questions" Style="{StaticResource InformationStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <DockPanel Grid.Row="2" Grid.Column="1">
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
                     <Slider IsSnapToTickEnabled="true" TickFrequency="1" Minimum="1" Maximum="10" Width="180" VerticalAlignment="Center" Name="slValue" Value="{Binding NumberOfQuestions, UpdateSourceTrigger=PropertyChanged}" TickPlacement="BottomRight"/>
                     <TextBox Width="22" HorizontalAlignment="Left" Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
-                </DockPanel>
+                </StackPanel>
 
             </Grid>
         </Viewbox>
@@ -66,47 +66,47 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource InformationStyle}" Text="Question settings" TextDecorations="Underline" HorizontalAlignment="Center"></TextBlock>
-                <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
                     <TextBlock Text="Question" Style="{StaticResource InformationStyle}"/>
                     <TextBox/>
-                </DockPanel>
-                <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
                     <TextBlock Text="Category" Style="{StaticResource InformationStyle}"/>
                     <ComboBox/>
-                </DockPanel>
+                </StackPanel>
 
-                <DockPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,5">
+                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Margin="0,0,0,5">
                     <TextBlock Text="Answer 1 " Style="{StaticResource InformationStyle}"/>
                     <TextBox Width="180"/>
                     <RadioButton GroupName="correctAnswer"/>
-                </DockPanel>
-                <DockPanel Grid.Row="3" Grid.Column="1" Margin="0,0,0,5">
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="0,0,0,5">
                     <TextBlock Text="Answer 2" Style="{StaticResource InformationStyle}"/>
                     <TextBox Width="180"/>
                     <RadioButton GroupName="correctAnswer"/>
-                </DockPanel>
-                <DockPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,4">
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" Margin="0,0,0,4">
                     <TextBlock Text="Answer 3" Style="{StaticResource InformationStyle}"/>
                     <TextBox Width="180"/>
                     <RadioButton GroupName="correctAnswer"/>
-                </DockPanel>
-                <DockPanel Grid.Row="4" Grid.Column="1" Margin="0,0,0,5">
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" Margin="0,0,0,5">
                     <TextBlock Text="Answer 4" Style="{StaticResource InformationStyle}"/>
                     <TextBox Width="180"/>
                     <RadioButton GroupName="correctAnswer"/>
-                </DockPanel>
+                </StackPanel>
 
             </Grid>
         </Viewbox>
         <TextBlock Grid.Row="2" Name="TestText" Text="{Binding TestText}" Style="{StaticResource InformationStyle}"/>
-        <Viewbox Grid.Row="3" Name="ButtonBox" Margin="0,0,0,10">
-            <Grid Name="ButtonGrid">
+        <Viewbox Grid.Row="3" Name="ButtonBox">
+            <Grid Name="ButtonGrid" MinWidth="140">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Content="Cancel" Command="{Binding CancelCommand}" Margin="2,2,5,2"/>
-                <Button Grid.Column="1" Content="Submit" Command="{Binding SubmitCommand}" Margin="15,2,2,2"/>
+                <Button Grid.Column="1" Content="Submit" Command="{Binding SubmitCommand}" Margin="5,2,2,2"/>
             </Grid>
         </Viewbox>
     </Grid>

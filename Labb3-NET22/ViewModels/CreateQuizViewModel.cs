@@ -25,7 +25,7 @@ public class CreateQuizViewModel : ObservableObject
         {
             TestText = createQuizModel.GetTestText();
             QuizTitle = string.Empty;
-            NumberOfQuestions = 1;
+            NumberOfQuestions = 5;
             QuizBoxVisibility = Visibility.Collapsed;
         }, () => true);
         CancelCommand = new RelayCommand(() =>
