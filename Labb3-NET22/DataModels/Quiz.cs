@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Labb3_NET22.DataModels;   
 
@@ -21,9 +22,11 @@ public class Quiz
         throw new NotImplementedException("A random Question needs to be returned here!");
     }
 
-    public void AddQuestion(string statement, int correctAnswer, params string[] answers)
+    public void AddQuestion(string statement, int correctAnswer, QuestionCategory category, params string[] answers)
     {
-        throw new NotImplementedException("Question need to be instantiated and added to list of questions here!");
+        List<Question> toList = _questions.ToList();
+        toList.Add(new Question(statement, answers, correctAnswer, category));
+        _questions = toList;
     }
 
     public void RemoveQuestion(int index)
