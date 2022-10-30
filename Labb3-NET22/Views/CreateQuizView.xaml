@@ -109,6 +109,7 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -195,6 +196,16 @@
                     <TextBlock Style="{StaticResource InformationStyle}" Text="Answer 4" />
                     <TextBox Width="180" Text="{Binding QuestionAnswers[3], UpdateSourceTrigger=PropertyChanged}" />
                     <RadioButton GroupName="correctAnswer" IsChecked="{Binding SelectedAnswerArray[3], UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                    <TextBlock Style="{StaticResource InformationStyle}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}Question {0}/{1}">
+                                <Binding Path="CurrentQuestion" UpdateSourceTrigger="PropertyChanged"/>
+                                <Binding Path="NumberOfQuestions" UpdateSourceTrigger="PropertyChanged"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </StackPanel>
 
             </Grid>

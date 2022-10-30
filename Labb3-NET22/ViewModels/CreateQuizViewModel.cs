@@ -54,7 +54,7 @@ public class CreateQuizViewModel : ObservableObject
                         MessageBox.Show("Your quiz has been succesfully saved.", "Quiz saved", MessageBoxButton.OK);
                         navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
                     }
-                    _currentQuestion++;
+                    CurrentQuestion++;
                 }
             }
             else
