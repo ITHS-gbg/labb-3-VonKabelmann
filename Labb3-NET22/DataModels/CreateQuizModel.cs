@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using Labb3_NET22.Managers;
 
 namespace Labb3_NET22.DataModels;
@@ -20,5 +21,11 @@ public class CreateQuizModel
     {
         var fileManager = new FileManager();
         fileManager.SaveQuizToFile(NewQuiz);
+    }
+
+    public bool CheckIfQuizExists()
+    {
+        var fileManager = new FileManager();
+        return fileManager.CheckIfFileExists($"{NewQuiz.Title}.json");
     }
 }

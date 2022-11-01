@@ -30,47 +30,21 @@ public class CreateQuizViewModel : ObservableObject
         QuestionAnswers = new string[4];
         SelectedAnswerArray = new bool[4];
         SelectedAnswerArray[0] = true;
-        SubmitCommand = new RelayCommand(() =>
-        {
-            if (_quizTitle != string.Empty)
-            {
-                if (QuizBoxVisibility == Visibility.Visible) // när man klickar submit för Quiz settings
-                {
-                    NewQuiz = new Quiz(QuizTitle);
-                    QuizBoxVisibility = Visibility.Collapsed;
-                    QuestionBoxVisibility = Visibility.Visible;
-                }
-                else // när man klickar submit för Question settings
-                {
-                    CorrectAnswer = Array.IndexOf(SelectedAnswerArray, true);
-                    createQuizModel.AddNewQuestion();
-
-                    QuestionAnswers = new string[4];
-                    QuestionStatement = string.Empty;
-
-                    if (CurrentQuestion == NumberOfQuestions)
-                    {
-                        createQuizModel.SaveQuiz();
-                        MessageBox.Show("Your quiz has been succesfully saved.", "Quiz saved", MessageBoxButton.OK);
-                        navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
-                    }
-                    CurrentQuestion++;
-                }
-            }
-            else
-            {
-                MessageBox.Show("The title field of your quiz must not be empty!", "Alert", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-        }, () => true);
+        SubmitCommand = new RelayCommand(SetupSubmitCommand, () => true);
         CancelCommand = new RelayCommand(() =>
         {
             navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
         });
     }
 
+
     public ICommand CancelCommand { get; }
     public ICommand SubmitCommand { get; }
+
+    private void InstanciateCommands()
+    {
+
+    }
 
     public Quiz NewQuiz
     {
@@ -150,4 +124,51 @@ public class CreateQuizViewModel : ObservableObject
         get => _testText;
         set => SetProperty(ref _testText, value);
     }
+
+    #region CommandContent
+
+
+    private void SetupSubmitCommand()
+    {
+        if (_quizTitle != string.Empty)
+        {
+            if (QuizBoxVisibility == Visibility.Visible) // när man klickar submit för Quiz settings
+            {
+                NewQuiz = new Quiz(QuizTitle);
+                if (_createQuizModel.CheckIfQuizExists())
+                {
+                    MessageBox.Show(
+                        $"A quiz with title '{_quizTitle}' already exists. Please choose a different title.",
+                        "Title already exists", MessageBoxButton.OK);
+                    return;
+                }
+                QuizBoxVisibility = Visibility.Collapsed;
+                QuestionBoxVisibility = Visibility.Visible;
+            }
+            else // när man klickar submit för Question settings
+            {
+                CorrectAnswer = Array.IndexOf(SelectedAnswerArray, true);
+                _createQuizModel.AddNewQuestion();
+
+                QuestionAnswers = new string[4];
+                QuestionStatement = string.Empty;
+
+                if (CurrentQuestion == NumberOfQuestions)
+                {
+                    _createQuizModel.SaveQuiz();
+                    MessageBox.Show("Your quiz has been succesfully saved.", "Quiz saved", MessageBoxButton.OK);
+                    _navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
+                }
+                CurrentQuestion++;
+            }
+        }
+        else
+        {
+            MessageBox.Show("The title field of your quiz must not be empty!", "Alert", MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
+    #endregion
+
 }

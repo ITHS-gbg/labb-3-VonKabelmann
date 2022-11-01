@@ -5,8 +5,109 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Labb3_NET22.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModels"
+    d:DataContext="{d:DesignInstance viewModels:PlayQuizViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid />
+    <UserControl.Background>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#65B4EC" />
+            <GradientStop Offset="1" Color="#2D5069" />
+        </LinearGradientBrush>
+    </UserControl.Background>
+    <Grid Style="{StaticResource MainGridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="0.5*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Viewbox Name="HeaderViewbox" Grid.Row="0">
+            <TextBlock Style="{StaticResource HeaderStyle}" Text="Play Quiz" />
+        </Viewbox>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Viewbox Grid.Row="0" Grid.Column="0">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="32"
+                    Style="{StaticResource InformationStyle}"
+                    Text="Play by Quiz" />
+            </Viewbox>
+            <Viewbox Grid.Row="0" Grid.Column="1">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="32"
+                    Style="{StaticResource InformationStyle}"
+                    Text="Play by Category" />
+            </Viewbox>
+            <ListView
+                Name="QuizList"
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5"
+                ItemsSource="{Binding QuizList, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedQuiz}"
+                SelectionMode="Single">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn
+                            Width="140"
+                            DisplayMemberBinding="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Category" />
+                        <GridViewColumn Width="140" Header="Questions" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView
+                Name="CategoryList"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                ItemsSource="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedCategory}"
+                SelectionMode="Single">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn
+                            Width="140"
+                            DisplayMemberBinding="{Binding Category}"
+                            Header="Category" />
+                        <GridViewColumn
+                            Width="140"
+                            DisplayMemberBinding="{Binding CategoryQuestionsAmount}"
+                            Header="Questions" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <Viewbox Name="ButtonBox" Grid.Row="2">
+            <Grid Name="ButtonGrid" MinWidth="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Margin="2,2,5,2"
+                    Command="{Binding CancelCommand}"
+                    Content="Cancel" />
+                <Button
+                    Grid.Column="1"
+                    Margin="5,2,2,2"
+                    Command="{Binding ConfirmCommand}"
+                    Content="Confirm" />
+            </Grid>
+        </Viewbox>
+    </Grid>
 </UserControl>

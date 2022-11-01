@@ -31,6 +31,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="ListBox">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="15" />
+                </Style>
+            </Style.Resources>
+        </Style>
         <Style
             x:Key="InformationStyle"
             BasedOn="{StaticResource CommonStyle}"
