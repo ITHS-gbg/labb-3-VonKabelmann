@@ -31,6 +31,7 @@ public class FileManager
     }
     public void SaveQuizToFile(Quiz quiz)
     {
+        CreateLocalDirectory();
         var json = JsonSerializer.Serialize(quiz, new JsonSerializerOptions() { WriteIndented = true });
         var filePath = Path.Combine(_folderPath, $"{quiz.Title}.json");
         using StreamWriter sw = new StreamWriter(filePath);
@@ -52,6 +53,7 @@ public class FileManager
 
     public IEnumerable<Quiz> GetAllQuizzesFromFolder()
     {
+        CreateLocalDirectory();
         var filePaths = Directory.GetFiles(_folderPath);
         return filePaths.Select(filePath => GetQuizFromFile(filePath)).ToList();
     }

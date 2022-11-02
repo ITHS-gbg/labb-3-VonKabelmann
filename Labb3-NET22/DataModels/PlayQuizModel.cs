@@ -6,4 +6,5 @@ namespace Labb3_NET22.DataModels;
 public class PlayQuizModel
 {
     public List<Quiz> QuizList { get; set; }
+    public QuestionCategory Category { get; set; }
 }

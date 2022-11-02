@@ -17,13 +17,15 @@ public class CreateQuizViewModel : ObservableObject
 {
     private readonly CreateQuizModel _createQuizModel;
     private readonly NavigationStore _navigationStore;
+    private readonly NavigationStore _localNavigationStore;
     private readonly FileManager _fileManager;
 
     public CreateQuizViewModel(CreateQuizModel createQuizModel, NavigationStore navigationStore)
     {
         _createQuizModel = createQuizModel;
         _navigationStore = navigationStore;
-        QuestionBoxVisibility = Visibility.Collapsed;
+        _localNavigationStore = new NavigationStore() { CurrentViewModel = new EditQuizViewModel() };
+        _localNavigationStore.CurrentViewModelChanged += OnCurrentLocalViewModelChanged;
         QuizTitle = "Enter quiz title here";
         NumberOfQuestions = 5; // defaultförslag för värdet slidern ska börja på
         CurrentQuestion = 1;
@@ -41,10 +43,7 @@ public class CreateQuizViewModel : ObservableObject
     public ICommand CancelCommand { get; }
     public ICommand SubmitCommand { get; }
 
-    private void InstanciateCommands()
-    {
-
-    }
+    public ObservableObject CurrentLocalViewModel => _localNavigationStore.CurrentViewModel;
 
     public Quiz NewQuiz
     {
@@ -106,18 +105,6 @@ public class CreateQuizViewModel : ObservableObject
         get => _selectedAnswerArray;
         set => SetProperty(ref _selectedAnswerArray, value);
     }
-    private Visibility _quizBoxVisibility;
-    public Visibility QuizBoxVisibility
-    {
-        get => _quizBoxVisibility;
-        set => SetProperty(ref _quizBoxVisibility, value);
-    }
-    private Visibility _questionBoxVisibility;
-    public Visibility QuestionBoxVisibility
-    {
-        get => _questionBoxVisibility;
-        set => SetProperty(ref _questionBoxVisibility, value);
-    }
     private string _testText; // för debug
     public string TestText
     {
@@ -130,45 +117,14 @@ public class CreateQuizViewModel : ObservableObject
 
     private void SetupSubmitCommand()
     {
-        if (_quizTitle != string.Empty)
-        {
-            if (QuizBoxVisibility == Visibility.Visible) // när man klickar submit för Quiz settings
-            {
-                NewQuiz = new Quiz(QuizTitle);
-                if (_createQuizModel.CheckIfQuizExists())
-                {
-                    MessageBox.Show(
-                        $"A quiz with title '{_quizTitle}' already exists. Please choose a different title.",
-                        "Title already exists", MessageBoxButton.OK);
-                    return;
-                }
-                QuizBoxVisibility = Visibility.Collapsed;
-                QuestionBoxVisibility = Visibility.Visible;
-            }
-            else // när man klickar submit för Question settings
-            {
-                CorrectAnswer = Array.IndexOf(SelectedAnswerArray, true);
-                _createQuizModel.AddNewQuestion();
-
-                QuestionAnswers = new string[4];
-                QuestionStatement = string.Empty;
-
-                if (CurrentQuestion == NumberOfQuestions)
-                {
-                    _createQuizModel.SaveQuiz();
-                    MessageBox.Show("Your quiz has been succesfully saved.", "Quiz saved", MessageBoxButton.OK);
-                    _navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
-                }
-                CurrentQuestion++;
-            }
-        }
-        else
-        {
-            MessageBox.Show("The title field of your quiz must not be empty!", "Alert", MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
+        _localNavigationStore.CurrentViewModel = new EditQuestionViewModel();
     }
 
     #endregion
+
+    private void OnCurrentLocalViewModelChanged()
+    {
+        OnPropertyChanged(nameof(CurrentLocalViewModel));
+    }
 
 }

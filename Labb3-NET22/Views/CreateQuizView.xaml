@@ -7,6 +7,7 @@
     xmlns:managers="clr-namespace:Labb3_NET22.Managers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModels"
+    xmlns:views="clr-namespace:Labb3_NET22.Views"
     d:DataContext="{d:DesignInstance viewModels:CreateQuizViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -20,203 +21,24 @@
     <Grid Style="{StaticResource MainGridStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="1.5*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="0.5*" />
         </Grid.RowDefinitions>
         <Viewbox Name="HeaderViewbox">
             <TextBlock Style="{DynamicResource HeaderStyle}" Text="Quiz Creator" />
         </Viewbox>
         <Viewbox
-            x:Name="QuizViewbox"
-            Grid.Row="1"
-            StretchDirection="DownOnly"
-            Visibility="{Binding QuizBoxVisibility}">
-            <Grid Name="QuizGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="1.3*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="24"
-                    Style="{StaticResource InformationStyle}"
-                    Text="Quiz Settings"
-                    TextDecorations="Underline" />
-
-                <TextBlock
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource InformationStyle}"
-                    Text="Title" />
-                <TextBox
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="180"
-                    HorizontalAlignment="Left"
-                    Text="{Binding QuizTitle, UpdateSourceTrigger=PropertyChanged}" />
-
-                <TextBlock
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource InformationStyle}"
-                    Text="Amount of questions" />
-                <StackPanel
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Orientation="Horizontal">
-                    <Slider
-                        Name="slValue"
-                        Width="180"
-                        VerticalAlignment="Center"
-                        IsSnapToTickEnabled="true"
-                        Maximum="10"
-                        Minimum="1"
-                        TickFrequency="1"
-                        TickPlacement="BottomRight"
-                        Value="{Binding NumberOfQuestions, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox
-                        Width="22"
-                        HorizontalAlignment="Left"
-                        Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-
-            </Grid>
-        </Viewbox>
-        <Viewbox
-            Name="QuestionViewbox"
-            Grid.Row="1"
-            Visibility="{Binding QuestionBoxVisibility}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource InformationStyle}"
-                    Text="Question settings"
-                    TextDecorations="Underline" />
-                <StackPanel
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="0,0,0,5"
-                    Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource InformationStyle}" Text="Question" />
-                    <TextBox
-                        Width="463"
-                        Margin="8,0,0,0"
-                        Text="{Binding QuestionStatement, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Margin="0,0,0,5"
-                    Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource InformationStyle}" Text="Category" />
-                    <ComboBox
-                        Width="463"
-                        Margin="7,0,0,0"
-                        DisplayMemberPath="Description"
-                        ItemsSource="{Binding SelectedCategory, Converter={managers:EnumToCollectionConverter}, Mode=OneTime}"
-                        SelectedValue="{Binding SelectedCategory}"
-                        SelectedValuePath="Value">
-                        <ComboBox.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#A9CEE8" />
-                        </ComboBox.Resources>
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Background" Value="#A9CEE8" />
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
-                    </ComboBox>
-                </StackPanel>
-
-                <StackPanel
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Margin="0,0,0,5"
-                    Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource InformationStyle}" Text="Answer 1 " />
-                    <TextBox Width="180" Text="{Binding QuestionAnswers[0], UpdateSourceTrigger=PropertyChanged}" />
-                    <RadioButton GroupName="correctAnswer" IsChecked="{Binding SelectedAnswerArray[0], UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Margin="0,0,0,5"
-                    Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource InformationStyle}" Text="Answer 2" />
-                    <TextBox Width="180" Text="{Binding QuestionAnswers[1], UpdateSourceTrigger=PropertyChanged}" />
-                    <RadioButton GroupName="correctAnswer" IsChecked="{Binding SelectedAnswerArray[1], UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Margin="0,0,0,4"
-                    Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource InformationStyle}" Text="Answer 3" />
-                    <TextBox Width="180" Text="{Binding QuestionAnswers[2], UpdateSourceTrigger=PropertyChanged}" />
-                    <RadioButton GroupName="correctAnswer" IsChecked="{Binding SelectedAnswerArray[2], UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Margin="0,0,0,5"
-                    Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource InformationStyle}" Text="Answer 4" />
-                    <TextBox Width="180" Text="{Binding QuestionAnswers[3], UpdateSourceTrigger=PropertyChanged}" />
-                    <RadioButton GroupName="correctAnswer" IsChecked="{Binding SelectedAnswerArray[3], UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2">
-                    <TextBlock Style="{StaticResource InformationStyle}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}Question {0}/{1}">
-                                <Binding Path="CurrentQuestion" UpdateSourceTrigger="PropertyChanged" />
-                                <Binding Path="NumberOfQuestions" UpdateSourceTrigger="PropertyChanged" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-
-            </Grid>
+            MaxWidth="900"
+            Name="EditorViewbox"
+            Grid.Row="1">
+            <ContentControl Content="{Binding CurrentLocalViewModel}"/>
         </Viewbox>
         <TextBlock
             Name="TestText"
             Grid.Row="2"
             Style="{StaticResource InformationStyle}"
             Text="{Binding TestText}" />
-        <Viewbox Name="ButtonBox" Grid.Row="3">
+        <Viewbox Name="ButtonBox" Grid.Row="2">
             <Grid Name="ButtonGrid" MinWidth="140">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

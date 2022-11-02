@@ -30,14 +30,27 @@ public class PlayQuizViewModel : ObservableObject
     }
 
     private Quiz _selectedQuiz;
-
     public Quiz SelectedQuiz
     {
-        get { return _selectedQuiz; }
-        set { _selectedQuiz = value; }
+        get => _selectedQuiz;
+        set => SetProperty(ref _selectedQuiz, value);
     }
-
-
+    public QuestionCategory SelectedCategory
+    {
+        get => _playQuizModel.Category;
+        set
+        {
+            //if (category != value)
+            //{
+            //    category = value;
+            //    OnPropertyChanged(nameof(SelectedCategory));
+            //}
+            if (_playQuizModel.Category != value)
+            {
+                SetProperty(_playQuizModel.Category, value, (v) => _playQuizModel.Category = v);
+            }
+        }
+    }
     public ObservableCollection<Quiz> QuizList
     {
         get => new ObservableCollection<Quiz>(_playQuizModel.QuizList);
