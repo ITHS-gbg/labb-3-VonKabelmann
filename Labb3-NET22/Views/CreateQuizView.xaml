@@ -22,16 +22,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="2*" />
-            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.7*" />
         </Grid.RowDefinitions>
         <Viewbox Name="HeaderViewbox">
             <TextBlock Style="{DynamicResource HeaderStyle}" Text="Quiz Creator" />
         </Viewbox>
         <Viewbox
-            MaxWidth="900"
             Name="EditorViewbox"
-            Grid.Row="1">
-            <ContentControl Content="{Binding CurrentLocalViewModel}"/>
+            Grid.Row="1"
+            MaxWidth="900">
+            <ContentControl Content="{Binding CurrentLocalViewModel}" />
         </Viewbox>
         <TextBlock
             Name="TestText"
@@ -39,21 +39,17 @@
             Style="{StaticResource InformationStyle}"
             Text="{Binding TestText}" />
         <Viewbox Name="ButtonBox" Grid.Row="2">
-            <Grid Name="ButtonGrid" MinWidth="140">
+            <Grid Name="ButtonGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Button
                     Grid.Column="0"
-                    Margin="2,2,5,2"
+                    Width="70"
+                    MaxHeight="40"
                     Command="{Binding CancelCommand}"
                     Content="Cancel" />
-                <Button
-                    Grid.Column="1"
-                    Margin="5,2,2,2"
-                    Command="{Binding SubmitCommand}"
-                    Content="Submit" />
             </Grid>
         </Viewbox>
     </Grid>

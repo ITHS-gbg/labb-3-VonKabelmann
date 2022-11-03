@@ -21,7 +21,6 @@ public class PlayQuizViewModel : ObservableObject
     {
         _playQuizModel = playQuizModel;
         _navigationStore = navigationStore;
-        _playQuizModel.QuizList = new FileManager().GetAllQuizzesFromFolder().ToList();
         OnPropertyChanged(nameof(QuizList));
         CancelCommand = new RelayCommand(() =>
         {
