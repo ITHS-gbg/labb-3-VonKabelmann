@@ -23,75 +23,15 @@
             <RowDefinition Height="2*" />
             <RowDefinition Height="0.5*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
         <Viewbox Name="HeaderViewbox" Grid.Row="0">
             <TextBlock Style="{StaticResource HeaderStyle}" Text="Play Quiz" />
         </Viewbox>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="4*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Viewbox Grid.Row="0" Grid.Column="0">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="32"
-                    Style="{StaticResource InformationStyle}"
-                    Text="Play by Quiz" />
-            </Viewbox>
-            <Viewbox Grid.Row="0" Grid.Column="1">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="32"
-                    Style="{StaticResource InformationStyle}"
-                    Text="Play by Category" />
-            </Viewbox>
-            <ListView
-                Name="QuizList"
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="5"
-                ItemsSource="{Binding QuizList, UpdateSourceTrigger=PropertyChanged}"
-                SelectedItem="{Binding SelectedQuiz}"
-                SelectionMode="Single">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn
-                            Width="140"
-                            DisplayMemberBinding="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-                            Header="Category" />
-                        <GridViewColumn Width="140" Header="Questions" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            <ListView
-                Name="CategoryList"
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="5"
-                ItemsSource="{Binding SelectedCategory, Converter={managers:EnumToCollectionConverter}, Mode=OneTime}"
-                SelectedItem="{Binding SelectedCategory}"
-                SelectionMode="Single">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn
-                            Width="140"
-                            DisplayMemberBinding="{Binding SelectedCategory}"
-                            Header="Category" />
-                        <GridViewColumn
-                            Width="140"
-                            DisplayMemberBinding="{Binding CategoryQuestionsAmount}"
-                            Header="Questions" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </Grid>
+        <Viewbox
+            Name="SelectorViewbox"
+            Grid.Row="1"
+            MaxWidth="900">
+            <ContentControl Content="{Binding CurrentLocalViewModel}" />
+        </Viewbox>
         <Viewbox Name="ButtonBox" Grid.Row="2">
             <Grid Name="ButtonGrid" MinWidth="140">
                 <Grid.ColumnDefinitions>
@@ -103,11 +43,6 @@
                     Margin="2,2,5,2"
                     Command="{Binding CancelCommand}"
                     Content="Cancel" />
-                <Button
-                    Grid.Column="1"
-                    Margin="5,2,2,2"
-                    Command="{Binding ConfirmCommand}"
-                    Content="Confirm" />
             </Grid>
         </Viewbox>
     </Grid>

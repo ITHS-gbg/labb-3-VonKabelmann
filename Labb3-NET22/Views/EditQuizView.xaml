@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Labb3_NET22.Views"
-    xmlns:managers="clr-namespace:Labb3_NET22.Managers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance viewModels:EditQuizViewModel}"
     mc:Ignorable="d">
     <Grid>
         <Grid Name="QuizGrid">
@@ -73,9 +74,9 @@
             </StackPanel>
             <Viewbox Grid.Row="3" Grid.ColumnSpan="2">
                 <Button
-                    Width="70"
                     MaxHeight="40"
-                    Content="Create" />
+                    Content="Create Quiz" 
+                    Command="{Binding CreateCommand}"/>
             </Viewbox>
 
         </Grid>

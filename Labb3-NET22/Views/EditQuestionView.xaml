@@ -6,12 +6,15 @@
     xmlns:local="clr-namespace:Labb3_NET22.Views"
     xmlns:managers="clr-namespace:Labb3_NET22.Managers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance viewModels:EditQuestionViewModel}"
     mc:Ignorable="d">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -104,19 +107,19 @@
                 <TextBox Width="180" Text="{Binding QuestionAnswers[3], UpdateSourceTrigger=PropertyChanged}" />
                 <RadioButton GroupName="correctAnswer" IsChecked="{Binding SelectedAnswerArray[3], UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
-            <StackPanel
-                Grid.Row="5"
-                Grid.Column="0"
-                Grid.ColumnSpan="2">
+            <Viewbox Grid.Row="5"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2">
                 <TextBlock Style="{StaticResource InformationStyle}">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}Question {0}/{1}">
-                            <Binding Path="CurrentQuestion" UpdateSourceTrigger="PropertyChanged" />
+                            <Binding Path="CurrentQuestionNum" UpdateSourceTrigger="PropertyChanged" />
                             <Binding Path="NumberOfQuestions" UpdateSourceTrigger="PropertyChanged" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-            </StackPanel>
+            </Viewbox>
+            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Create Question" Command="{Binding CreateCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

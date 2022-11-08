@@ -30,6 +30,9 @@
             <DataTemplate DataType="{x:Type vms:EditQuestionViewModel}">
                 <views:EditQuestionView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:SelectQuizViewModel}">
+                <views:SelectQuizView/>
+            </DataTemplate>
         </Grid.Resources>
         <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>

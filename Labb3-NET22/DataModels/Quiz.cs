@@ -11,6 +11,10 @@ public class Quiz
     public IEnumerable<Question> Questions => _questions;
     public string Title => _title;
 
+    public Quiz()
+    {
+        _questions = new List<Question>();
+    }
     public Quiz(string title)
     {
         _questions = new List<Question>();

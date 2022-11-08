@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Linq.Expressions;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
@@ -23,6 +24,10 @@ public class MainMenuViewModel : ObservableObject
         {
             navigationStore.CurrentViewModel = new PlayQuizViewModel(new PlayQuizModel(), _navigationStore);
         });
+        //EditCommand = new RelayCommand(() =>
+        //{
+            
+        //})
     }
     public ICommand PlayCommand { get; }
     public ICommand CreateCommand { get; }

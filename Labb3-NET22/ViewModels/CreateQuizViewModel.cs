@@ -23,14 +23,10 @@ public class CreateQuizViewModel : ObservableObject
     {
         _createQuizModel = createQuizModel;
         _navigationStore = navigationStore;
-        _localNavigationStore = new NavigationStore() { CurrentViewModel = new EditQuizViewModel(new EditQuizModel(), _localNavigationStore, new QuizStore()) };
+        _localNavigationStore = new NavigationStore();
+        _localNavigationStore.CurrentViewModel = new EditQuizViewModel(new EditQuizModel(), _navigationStore, _localNavigationStore, new QuizStore());
         _localNavigationStore.CurrentViewModelChanged += OnCurrentLocalViewModelChanged;
-        //QuizTitle = "Enter quiz title here";
-        //NumberOfQuestions = 5; // defaultförslag för värdet slidern ska börja på
-        //CurrentQuestion = 1;
-        //QuestionAnswers = new string[4];
-        //SelectedAnswerArray = new bool[4];
-        //SelectedAnswerArray[0] = true;
+
         CancelCommand = new RelayCommand(() =>
         {
             navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
@@ -44,14 +40,6 @@ public class CreateQuizViewModel : ObservableObject
     #endregion
 
     public ObservableObject CurrentLocalViewModel => _localNavigationStore.CurrentViewModel;
-
-    #endregion
-
-    
-
-    #region Command Content
-
-    
 
     #endregion
 

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Labb3_NET22.Stores;
 
-public class QuizStore
+public class QuizStore // byta namn till QuizManager och flytta till managers?
 {
     public Quiz CurrentQuiz { get; set; }
+
+    public int QuestionsAmount { get; set; }
 
     public bool CheckIfFileExists(string fileName)
     {
@@ -19,13 +23,14 @@ public class QuizStore
     {
         Directory.CreateDirectory(Constants.QuizlyFolderPath);
     }
-    public void SaveQuizToFile(Quiz quiz)
+    public async Task SaveQuizToFileAsync()
     {
-        CreateQuizlyFolder();
-        var json = JsonSerializer.Serialize(quiz, new JsonSerializerOptions() { WriteIndented = true });
-        var filePath = Path.Combine(Constants.QuizlyFolderPath, $"{quiz.Title}.json");
-        using StreamWriter sw = new StreamWriter(filePath);
-        sw.WriteLine(json);
+        await Task.Run(CreateQuizlyFolder);
+        var json = JsonSerializer.Serialize(CurrentQuiz, new JsonSerializerOptions() { WriteIndented = true });
+        var filePath = Path.Combine(Constants.QuizlyFolderPath, $"{CurrentQuiz.Title}.json");
+        await using var sw = new StreamWriter(filePath);
+        await sw.WriteLineAsync(json);
+        MessageBox.Show("Quiz successfully saved to file.", "Quiz Saved", MessageBoxButton.OK);
     }
     public Quiz? GetQuizFromFile(string filePath)
     {

@@ -33,11 +33,6 @@
             MaxWidth="900">
             <ContentControl Content="{Binding CurrentLocalViewModel}" />
         </Viewbox>
-        <TextBlock
-            Name="TestText"
-            Grid.Row="2"
-            Style="{StaticResource InformationStyle}"
-            Text="{Binding TestText}" />
         <Viewbox Name="ButtonBox" Grid.Row="2">
             <Grid Name="ButtonGrid">
                 <Grid.ColumnDefinitions>

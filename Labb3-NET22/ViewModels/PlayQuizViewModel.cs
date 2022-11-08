@@ -14,13 +14,24 @@ namespace Labb3_NET22.ViewModels;
 
 public class PlayQuizViewModel : ObservableObject
 {
+    #region Readonly Fields
+
     private readonly PlayQuizModel _playQuizModel;
     private readonly NavigationStore _navigationStore;
+    private readonly NavigationStore _localNavigationStore;
+    private readonly QuizStore _quizStore;
+
+    #endregion
+
 
     public PlayQuizViewModel(PlayQuizModel playQuizModel, NavigationStore navigationStore)
     {
         _playQuizModel = playQuizModel;
         _navigationStore = navigationStore;
+        _quizStore = new QuizStore();
+        _localNavigationStore = new NavigationStore();
+        _localNavigationStore.CurrentViewModel = new SelectQuizViewModel(new SelectQuizModel(), _navigationStore, _localNavigationStore, _quizStore);
+        _localNavigationStore.CurrentViewModelChanged += OnCurrentLocalViewModelChanged;
         OnPropertyChanged(nameof(QuizList));
         CancelCommand = new RelayCommand(() =>
         {
@@ -55,5 +66,9 @@ public class PlayQuizViewModel : ObservableObject
         get => new ObservableCollection<Quiz>(_playQuizModel.QuizList);
     }
     public ICommand CancelCommand { get; }
-    public ICommand ConfirmCommand { get; }
+    public ObservableObject CurrentLocalViewModel => _localNavigationStore.CurrentViewModel;
+    private void OnCurrentLocalViewModelChanged()
+    {
+        OnPropertyChanged(nameof(CurrentLocalViewModel));
+    }
 }
