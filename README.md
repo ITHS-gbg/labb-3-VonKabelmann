@@ -1,3 +1,17 @@
+# README!!!!!!
+
+Har haft problem med att få listorna uppdaterade korrekt efter att jag implementerade GetQuizFromFileAsync() och GetAllQuizzesFromFileAsync(). 
+Listorna uppdateras korrekt om man går tillbaka till main menu och sedan in i en meny med en lista igen. Får tyvärr inte ordning på buggen trots många timmars försök.
+
+Första gången man startar appen kommer den skapa och lagra ett hårdkodat Default Quiz i /appdata/local/Quizly. Förutom den tidigare nämnda buggen så verkar applikationen att fungera som den ska.
+
+Tyvärr fick jag inte med något påskägg i denna Labb. Jag får försöka ligga i lite mer på nästa labb så att jag hinner slänga in något roligt där. 
+
+Tack för all hjälp, Niklas!
+
+
+
+
 # Lab3 – Quiz game!
 
 Du har fått i uppgift att skapa ett grafiskt quiz-spel.</br>
