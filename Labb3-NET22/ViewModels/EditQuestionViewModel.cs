@@ -7,75 +7,97 @@ using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
 using Labb3_NET22.Managers;
 using Labb3_NET22.Stores;
+using Microsoft.Win32;
 
 namespace Labb3_NET22.ViewModels;
 
 public class EditQuestionViewModel : ObservableObject
 {
-    private readonly EditQuestionModel _editQuestionModel;
     private readonly NavigationStore _navigationStore;
     private readonly NavigationStore _localNavigationStore;
-    private readonly QuizStore _quizStore;
+    private readonly QuizManager _quizManager;
+    private readonly bool _editMode;
+    private readonly int _questionToEditIndex; // för att hitta till vilken fråga som ska ersättas i edit mode
 
-    public EditQuestionViewModel(EditQuestionModel editQuestionModel, NavigationStore navigationStore, NavigationStore localNavigationStore, QuizStore quizStore)
+    public EditQuestionViewModel(NavigationStore navigationStore, NavigationStore localNavigationStore, QuizManager quizManager, bool editMode)
     {
-        _editQuestionModel = editQuestionModel;
         _navigationStore = navigationStore;
         _localNavigationStore = localNavigationStore;
-        _quizStore = quizStore;
-        _numberOfQuestions = _quizStore.QuestionsAmount;
-        _currentQuestionNum = 1;
-        QuestionAnswers = new string[4];
-        QuestionStatement = string.Empty;
-        SelectedAnswerArray = new bool[4];
-        SelectedAnswerArray[0] = true;
-        CreateCommand = new RelayCommand(SetupCreateCommand);
+        _quizManager = quizManager;
+        _editMode = editMode;
+        if (_editMode == true)
+        {
+            _addEditButtonContent = "Edit Question";
+            _completeButtonVisibility = Visibility.Collapsed;
+            _questionToEditIndex = quizManager.CurrentQuiz.GetIndexOfQuestion(_quizManager.CurrentQuestion);
+        }
+        else
+        {
+            _addEditButtonContent = "Add Question";
+        }
+        if (!Equals(_quizManager.CurrentQuestion, null))
+        {
+            _questionStatement = _quizManager.CurrentQuestion.Statement;
+            _selectedCategory = _quizManager.CurrentQuestion.Category;
+            _questionAnswers = _quizManager.CurrentQuestion.Answers;
+            _selectedAnswerArray = new bool[4];
+            _selectedAnswerArray[_quizManager.CurrentQuestion.CorrectAnswer] = true;
+            _imagePath = _quizManager.CurrentQuestion.Image;
+        }
+        else
+        {
+            _questionAnswers = new string[4];
+            _questionStatement = string.Empty;
+            _selectedAnswerArray = new bool[4];
+            _selectedAnswerArray[0] = true;
+            _imagePath = string.Empty;
+        }
+        AddEditCommand = new RelayCommand(SetupAddEditCommand);
+        CompleteCommand = new RelayCommand(SetupCompleteCommand);
     }
 
     #region Properties
 
     #region Command Properties
-
-    public ICommand CreateCommand { get; }
+    public ICommand AddEditCommand { get; }
+    public ICommand CompleteCommand { get; }
 
     #endregion
 
-    private int _numberOfQuestions;
+    private string _addEditButtonContent;
 
-    public int NumberOfQuestions
+    public string AddEditButtonContent
     {
-        get => _numberOfQuestions;
-        set => SetProperty(ref _numberOfQuestions, value);
+        get => _addEditButtonContent;
+        set => SetProperty(ref _addEditButtonContent, value);
     }
-
-    private int _currentQuestionNum;
-    public int CurrentQuestionNum
-    {
-        get => _currentQuestionNum;
-        set => SetProperty(ref _currentQuestionNum, value);
-    }
+    private string _questionStatement;
     public string QuestionStatement
     {
-        get => _editQuestionModel.QuestionStatement;
-        set { SetProperty(_editQuestionModel.QuestionStatement, value, (v) => _editQuestionModel.QuestionStatement = v); }
+        get => _questionStatement;
+        set => SetProperty(ref _questionStatement, value);
     }
+
+    private QuestionCategory _selectedCategory;
     public QuestionCategory SelectedCategory
     {
-        get => _editQuestionModel.Category;
+        get => _selectedCategory;
         set
         {
-            if (_editQuestionModel.Category != value)
+            if (_selectedCategory != value)
             {
-                SetProperty(_editQuestionModel.Category, value, (v) => _editQuestionModel.Category = v);
+                SetProperty(ref _selectedCategory, value);
             }
         }
     }
+
+    private string[] _questionAnswers;
     public string[] QuestionAnswers
     {
-        get => _editQuestionModel.QuestionAnswers;
-        set { SetProperty(_editQuestionModel.QuestionAnswers, value, (v) => _editQuestionModel.QuestionAnswers = v); }
+        get => _questionAnswers;
+        set => SetProperty(ref _questionAnswers, value);
     }
-    public int CorrectAnswer { get; set; }
+    public int CorrectAnswer { get; private set; }
     private bool[] _selectedAnswerArray;
     public bool[] SelectedAnswerArray
     {
@@ -83,31 +105,60 @@ public class EditQuestionViewModel : ObservableObject
         set => SetProperty(ref _selectedAnswerArray, value);
     }
 
+    private string _imagePath;
+
+    public string ImagePath
+    {
+        get => _imagePath;
+        set => SetProperty(ref _imagePath, value);
+    }
+
+    private Visibility _completeButtonVisibility;
+
+    public Visibility CompleteButtonVisibility
+    {
+        get => _completeButtonVisibility;
+        set => SetProperty(ref _completeButtonVisibility, value);
+    }
     #endregion
 
     #region Command Content
 
-    private void SetupCreateCommand()
+    private void SetupAddEditCommand()
     {
         if (QuestionAnswers.Any(string.IsNullOrEmpty) || string.IsNullOrEmpty(QuestionStatement))
         {
-            MessageBox.Show("All fields must contain something.", "Empty field found", MessageBoxButton.OK);
+            MessageBox.Show("All fields must contain something (Including selecting an image!).", "Empty field found", MessageBoxButton.OK);
         }
         else
         {
             for (int i = 0; i < SelectedAnswerArray.Length; i++)
             {
-                if (SelectedAnswerArray[i] == true) CorrectAnswer = i;
+                if (_selectedAnswerArray[i] == true) CorrectAnswer = i;
             }
-            _quizStore.CurrentQuiz.AddQuestion(QuestionStatement, CorrectAnswer, SelectedCategory, QuestionAnswers);
+            _quizManager.CurrentQuiz.AddQuestion(QuestionStatement, CorrectAnswer, SelectedCategory, ImagePath, QuestionAnswers);
             QuestionAnswers = new string[4];
             QuestionStatement = string.Empty;
-            if (_currentQuestionNum == _numberOfQuestions)
+            if (_editMode == true)
             {
-                var task = _quizStore.SaveQuizToFileAsync();
-                _navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
+                _quizManager.CurrentQuiz.RemoveQuestion(_questionToEditIndex);
+                _quizManager.SaveQuizToFileAsync();
+                _navigationStore.CurrentViewModel = new EditMenuViewModel(_navigationStore, _quizManager);
             }
-            CurrentQuestionNum++;
+        }
+    }
+
+    private void SetupCompleteCommand()
+    {
+        if (_quizManager.CurrentQuiz.QuestionCount > 0)
+        {
+            _quizManager.SaveQuizToFileAsync();
+            _navigationStore.CurrentViewModel = new MainMenuViewModel(_navigationStore);
+        }
+        else
+        {
+            MessageBox.Show("You cannot create a quiz with no questions!", "No Questions Added", MessageBoxButton.OK,
+                MessageBoxImage.Exclamation);
         }
     }
 

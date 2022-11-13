@@ -31,7 +31,19 @@
                 <views:EditQuestionView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vms:SelectQuizViewModel}">
-                <views:SelectQuizView/>
+                <views:SelectQuizView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:SelectCategoryViewModel}">
+                <views:SelectCategoryView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:QuizPlayerViewModel}">
+                <views:QuizPlayerView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:SelectQuestionViewModel}">
+                <views:SelectQuestionView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:EditMenuViewModel}">
+                <views:EditMenuView />
             </DataTemplate>
         </Grid.Resources>
         <ContentControl Content="{Binding CurrentViewModel}" />

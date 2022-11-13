@@ -15,21 +15,19 @@ namespace Labb3_NET22.ViewModels;
 
 public class CreateQuizViewModel : ObservableObject
 {
-    private readonly CreateQuizModel _createQuizModel;
     private readonly NavigationStore _navigationStore;
     private readonly NavigationStore _localNavigationStore;
 
-    public CreateQuizViewModel(CreateQuizModel createQuizModel, NavigationStore navigationStore)
+    public CreateQuizViewModel(NavigationStore navigationStore)
     {
-        _createQuizModel = createQuizModel;
         _navigationStore = navigationStore;
         _localNavigationStore = new NavigationStore();
-        _localNavigationStore.CurrentViewModel = new EditQuizViewModel(new EditQuizModel(), _navigationStore, _localNavigationStore, new QuizStore());
+        _localNavigationStore.CurrentViewModel = new EditQuizViewModel(_navigationStore, _localNavigationStore, new QuizManager());
         _localNavigationStore.CurrentViewModelChanged += OnCurrentLocalViewModelChanged;
 
         CancelCommand = new RelayCommand(() =>
         {
-            navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
+            navigationStore.CurrentViewModel = new MainMenuViewModel(_navigationStore);
         });
     }
 

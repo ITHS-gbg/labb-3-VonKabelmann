@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Labb3_NET22.DataModels;
+using Labb3_NET22.Managers;
 using Labb3_NET22.Stores;
 using Labb3_NET22.ViewModels;
 
@@ -25,7 +26,8 @@ namespace Labb3_NET22
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _navigationStore.CurrentViewModel = new MainMenuViewModel(new MainMenuModel(), _navigationStore);
+            new QuizManager().CreateDefaultQuiz();
+            _navigationStore.CurrentViewModel = new MainMenuViewModel(_navigationStore);
             MainWindow = new MainWindow()
             {
                 DataContext = new MainViewModel(_navigationStore)

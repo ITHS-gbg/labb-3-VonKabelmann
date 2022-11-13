@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Labb3_NET22.Views.SelectQuizView"
+    x:Class="Labb3_NET22.Views.SelectCategoryView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
     xmlns:managers="clr-namespace:Labb3_NET22.Managers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModels"
-    d:DataContext="{d:DesignInstance viewModels:SelectQuizViewModel}"
+    d:DataContext="{d:DesignInstance viewModels:SelectCategoryViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -17,27 +17,27 @@
             <RowDefinition Height="4*" />
             <RowDefinition Height="1.5*" />
         </Grid.RowDefinitions>
-        <Viewbox Grid.Row="0" Grid.Column="0">
+        <Viewbox Grid.Row="0">
             <TextBlock
                 HorizontalAlignment="Center"
                 FontSize="32"
                 Style="{StaticResource InformationStyle}"
-                Text="Quiz Selection" />
+                Text="Category Selection" />
         </Viewbox>
         <ListView
-            Name="QuizList"
+            Name="CategoryList"
             Grid.Row="1"
-            Grid.Column="0"
+            Grid.Column="1"
             Margin="5"
-            ItemsSource="{Binding QuizList, UpdateSourceTrigger=PropertyChanged}"
-            SelectedItem="{Binding SelectedQuiz, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding CategoricalQuizList, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding SelectedCategory}"
             SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn
                         Width="140"
-                        DisplayMemberBinding="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-                        Header="Title" />
+                        DisplayMemberBinding="{Binding Title}"
+                        Header="Category" />
                     <GridViewColumn
                         Width="140"
                         DisplayMemberBinding="{Binding QuestionCount}"
@@ -51,13 +51,12 @@
             Orientation="Horizontal">
             <Button
                 Margin="2,2,10,2"
-                Command="{Binding ChangeToCategoriesCommand}"
-                Content="Change to Categories" />
+                Command="{Binding ChangeToQuizCommand}"
+                Content="Change to Quiz" />
             <Button
                 Margin="10,2,2,2"
                 Command="{Binding ConfirmCommand}"
                 Content="Confirm" />
         </StackPanel>
-
     </Grid>
 </UserControl>

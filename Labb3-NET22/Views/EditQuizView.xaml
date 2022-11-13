@@ -46,32 +46,6 @@
                 HorizontalAlignment="Left"
                 Text="{Binding QuizTitle, UpdateSourceTrigger=PropertyChanged}" />
 
-            <TextBlock
-                Grid.Row="2"
-                Grid.Column="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Style="{StaticResource InformationStyle}"
-                Text="Amount of questions" />
-            <StackPanel
-                Grid.Row="2"
-                Grid.Column="1"
-                Orientation="Horizontal">
-                <Slider
-                    Name="slValue"
-                    Width="180"
-                    VerticalAlignment="Center"
-                    IsSnapToTickEnabled="true"
-                    Maximum="10"
-                    Minimum="1"
-                    TickFrequency="1"
-                    TickPlacement="BottomRight"
-                    Value="{Binding NumberOfQuestions, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox
-                    Width="22"
-                    HorizontalAlignment="Left"
-                    Text="{Binding ElementName=slValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
             <Viewbox Grid.Row="3" Grid.ColumnSpan="2">
                 <Button
                     MaxHeight="40"

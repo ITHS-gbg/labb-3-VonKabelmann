@@ -1,33 +1,36 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
+using Labb3_NET22.Managers;
 using Labb3_NET22.Stores;
 
 namespace Labb3_NET22.ViewModels;
 
 public class MainMenuViewModel : ObservableObject
 {
-    private readonly MainMenuModel _mainMenuModel;
     private readonly NavigationStore _navigationStore;
-    public MainMenuViewModel(MainMenuModel mainMenuModel, NavigationStore navigationStore)
+    private readonly QuizManager _quizManager;
+    public MainMenuViewModel(NavigationStore navigationStore)
     {
-        _mainMenuModel = mainMenuModel;
         _navigationStore = navigationStore;
-        ExitCommand = new RelayCommand(mainMenuModel.ExitApplication,() => true);
+        _quizManager = new QuizManager();
+        _quizManager.GetAllQuizzesFromFolderAsync();
+        ExitCommand = new RelayCommand(() => Environment.Exit(0));
         CreateCommand = new RelayCommand(() =>
         {
-            navigationStore.CurrentViewModel = new CreateQuizViewModel(new CreateQuizModel(), _navigationStore);
+            navigationStore.CurrentViewModel = new CreateQuizViewModel(_navigationStore);
         });
         PlayCommand = new RelayCommand(() =>
         {
-            navigationStore.CurrentViewModel = new PlayQuizViewModel(new PlayQuizModel(), _navigationStore);
+            navigationStore.CurrentViewModel = new PlayQuizViewModel(_navigationStore, _quizManager);
         });
-        //EditCommand = new RelayCommand(() =>
-        //{
-            
-        //})
+        EditCommand = new RelayCommand(() =>
+        {
+            _navigationStore.CurrentViewModel = new EditMenuViewModel(_navigationStore, _quizManager);
+        });
     }
     public ICommand PlayCommand { get; }
     public ICommand CreateCommand { get; }

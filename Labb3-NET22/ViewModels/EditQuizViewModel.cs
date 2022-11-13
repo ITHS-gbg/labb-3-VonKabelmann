@@ -3,6 +3,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
+using Labb3_NET22.Managers;
 using Labb3_NET22.Stores;
 
 namespace Labb3_NET22.ViewModels;
@@ -10,34 +11,30 @@ namespace Labb3_NET22.ViewModels;
 public class EditQuizViewModel : ObservableObject
 {
     #region Readonly Fields
-
-    private readonly EditQuizModel _editQuizModel;
+    
     private readonly NavigationStore _navigationStore;
     private readonly NavigationStore _localNavigationStore;
-    private readonly QuizStore _quizStore;
+    private readonly QuizManager _quizManager;
 
     #endregion
 
 
-    public EditQuizViewModel(EditQuizModel editQuizModel, NavigationStore navigationStore, NavigationStore localNavigationStore, QuizStore quizStore)
+    public EditQuizViewModel(NavigationStore navigationStore, NavigationStore localNavigationStore, QuizManager quizManager)
     {
-        _editQuizModel = editQuizModel;
         _navigationStore = navigationStore;
         _localNavigationStore = localNavigationStore;
-        _quizStore = quizStore;
+        _quizManager = quizManager;
         _quizTitle = string.Empty;
-        _numberOfQuestions = 3;
         CreateCommand = new RelayCommand(() =>
         {
-            if (_quizTitle != string.Empty)
+            if (_quizTitle != string.Empty && !_quizManager.CheckIfFileExists($"{_quizTitle}.json"))
             {
-                quizStore.QuestionsAmount = _numberOfQuestions;
-                quizStore.CurrentQuiz = new Quiz(_quizTitle);
-                _localNavigationStore.CurrentViewModel = new EditQuestionViewModel(new EditQuestionModel(), _navigationStore, _localNavigationStore, _quizStore);
+                _quizManager.CurrentQuiz = new Quiz(_quizTitle);
+                _localNavigationStore.CurrentViewModel = new EditQuestionViewModel(_navigationStore, _localNavigationStore, _quizManager, false);
             }
             else
             {
-                MessageBox.Show("The Title field must not be empty.", "Title error", MessageBoxButton.OK,
+                MessageBox.Show("The Title field is empty or a quiz with that name already exists.", "Title error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         });
@@ -56,12 +53,6 @@ public class EditQuizViewModel : ObservableObject
     {
         get => _quizTitle;
         set => SetProperty(ref _quizTitle, value);
-    }
-    private int _numberOfQuestions;
-    public int NumberOfQuestions
-    {
-        get => _numberOfQuestions;
-        set => SetProperty(ref _numberOfQuestions, value);
     }
 
     #endregion

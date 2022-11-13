@@ -10,7 +10,7 @@
         <Style BasedOn="{StaticResource CommonStyle}" TargetType="Button">
             <Setter Property="Background" Value="#A9CEE8" />
             <Setter Property="Height" Value="40" />
-            <Setter Property="MaxWidth" Value="120" />
+            <Setter Property="MaxWidth" Value="150" />
             <Setter Property="FontFamily" Value="Bauhaus 93" />
             <Setter Property="Foreground" Value="#2D5069" />
             <Setter Property="FontSize" Value="16" />
