@@ -73,8 +73,15 @@ public class SelectQuestionViewModel : ObservableObject
 
     private void SetupEditCommand()
     {
-        _quizManager.CurrentQuestion = _selectedQuestion;
-        _localNavigationStore.CurrentViewModel =
-            new EditQuestionViewModel(_navigationStore, _localNavigationStore, _quizManager, true);
+        if (_selectedQuestion != null)
+        {
+            _quizManager.CurrentQuestion = _selectedQuestion;
+            _localNavigationStore.CurrentViewModel =
+                new EditQuestionViewModel(_navigationStore, _localNavigationStore, _quizManager, true);
+        }
+        else
+        {
+            MessageBox.Show("You must select a question to proceed.", "No Question Selected", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }

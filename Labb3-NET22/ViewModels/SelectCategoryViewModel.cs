@@ -56,7 +56,7 @@ public class SelectCategoryViewModel : ObservableObject
         }
         else
         {
-            MessageBox.Show("You must select a quiz to proceed.", "No quiz selected", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("You must select a quiz to proceed.", "No Quiz Selected", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
