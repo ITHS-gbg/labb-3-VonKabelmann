@@ -5,6 +5,8 @@ Listorna uppdateras korrekt om man går tillbaka till main menu och sedan in i e
 
 Första gången man startar appen kommer den skapa och lagra ett hårdkodat Default Quiz i /appdata/local/Quizly. Förutom den tidigare nämnda buggen så verkar applikationen att fungera som den ska.
 
+Redovisning för min planering ligger i mappen "Planering" som finns i samma mapp som .sln filen.
+
 Tyvärr fick jag inte med något påskägg i denna Labb. Jag får försöka ligga i lite mer på nästa labb så att jag hinner slänga in något roligt där. 
 
 Tack för all hjälp, Niklas!
